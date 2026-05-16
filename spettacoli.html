@@ -79,10 +79,11 @@
   }
   .spettacolo-card:hover { background: #e0f0ff; border-color: #1a4a6b; }
   .spettacolo-card.selezionata { background: #d5eaf9; border-color: #1a4a6b; border-width: 3px; }
-  .spettacolo-card input[type="checkbox"] {
-    width: 28px; height: 28px; accent-color: #1a4a6b;
-    cursor: pointer; flex-shrink: 0; pointer-events: none;
+  .sp-check {
+    font-size: 28px; flex-shrink: 0; width: 32px; text-align: center;
+    color: #7eb8d4; line-height: 1;
   }
+  .spettacolo-card.selezionata .sp-check { color: #1a4a6b; }
   .spettacolo-info { flex: 1; }
   .spettacolo-titolo { font-size: 19px; font-weight: bold; color: #0d2233; }
   .spettacolo-data { font-size: 16px; color: #555; margin-top: 4px; }
@@ -293,146 +294,132 @@
 
       <div class="categoria-label">🎭 Prosa</div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 1)">
-        <input type="checkbox" id="sp1">
+      <div class="spettacolo-card" id="card1" onclick="toggleSpettacolo(1)">
+        <div class="sp-check" id="check1">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">The Opera Locos</div>
           <div class="spettacolo-data">📅 29 novembre 2026</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 2)">
-        <input type="checkbox" id="sp2">
+      <div class="spettacolo-card" id="card2" onclick="toggleSpettacolo(2)">
+        <div class="sp-check" id="check2">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Breaking Brecht</div>
           <div class="spettacolo-data">📅 13 dicembre 2026</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 3)">
-        <input type="checkbox" id="sp3">
+      <div class="spettacolo-card" id="card3" onclick="toggleSpettacolo(3)">
+        <div class="sp-check" id="check3">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Stato contro Nolan</div>
           <div class="spettacolo-data">📅 31 gennaio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 4)">
-        <input type="checkbox" id="sp4">
+      <div class="spettacolo-card" id="card4" onclick="toggleSpettacolo(4)">
+        <div class="sp-check" id="check4">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Lisistrata</div>
           <div class="spettacolo-data">📅 14 febbraio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 5)">
-        <input type="checkbox" id="sp5">
+      <div class="spettacolo-card" id="card5" onclick="toggleSpettacolo(5)">
+        <div class="sp-check" id="check5">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">La Cosmicomica vita di Q</div>
           <div class="spettacolo-data">📅 28 febbraio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 6)">
-        <input type="checkbox" id="sp6">
+      <div class="spettacolo-card" id="card6" onclick="toggleSpettacolo(6)">
+        <div class="sp-check" id="check6">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Come Mandela</div>
           <div class="spettacolo-data">📅 14 marzo 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 7)">
-        <input type="checkbox" id="sp7">
+      <div class="spettacolo-card" id="card7" onclick="toggleSpettacolo(7)">
+        <div class="sp-check" id="check7">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Nessuno. Le avventure di Ulisse</div>
           <div class="spettacolo-data">📅 21 marzo 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 8)">
-        <input type="checkbox" id="sp8">
+      <div class="spettacolo-card" id="card8" onclick="toggleSpettacolo(8)">
+        <div class="sp-check" id="check8">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">L'inconveniente</div>
           <div class="spettacolo-data">📅 4 aprile 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 9)">
-        <input type="checkbox" id="sp9">
+      <div class="spettacolo-card" id="card9" onclick="toggleSpettacolo(9)">
+        <div class="sp-check" id="check9">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Dopo la prova</div>
           <div class="spettacolo-data">📅 18 aprile 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 10)">
-        <input type="checkbox" id="sp10">
+      <div class="spettacolo-card" id="card10" onclick="toggleSpettacolo(10)">
+        <div class="sp-check" id="check10">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Pirandello Pulp</div>
           <div class="spettacolo-data">📅 9 maggio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
-
       </div>
 
       <div class="categoria-label" style="margin-top:28px;">💃 Danza</div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 11)">
-        <input type="checkbox" id="sp11">
+      <div class="spettacolo-card" id="card11" onclick="toggleSpettacolo(11)">
+        <div class="sp-check" id="check11">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">L.A.V.A.</div>
           <div class="spettacolo-data">📅 20 dicembre 2026</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 12)">
-        <input type="checkbox" id="sp12">
+      <div class="spettacolo-card" id="card12" onclick="toggleSpettacolo(12)">
+        <div class="sp-check" id="check12">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Lo schiaccianoci</div>
           <div class="spettacolo-data">📅 6 gennaio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 13)">
-        <input type="checkbox" id="sp13">
+      <div class="spettacolo-card" id="card13" onclick="toggleSpettacolo(13)">
+        <div class="sp-check" id="check13">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Don Quixote</div>
           <div class="spettacolo-data">📅 17 gennaio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
-
       </div>
 
-      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 14)">
-        <input type="checkbox" id="sp14">
+      <div class="spettacolo-card" id="card14" onclick="toggleSpettacolo(14)">
+        <div class="sp-check" id="check14">☐</div>
         <div class="spettacolo-info">
           <div class="spettacolo-titolo">Giselle</div>
           <div class="spettacolo-data">📅 11 aprile 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
-
       </div>
 
       <div class="errore-msg" id="err-spettacoli" style="font-size:17px; margin-top:12px;">Selezionare almeno uno spettacolo</div>
@@ -549,59 +536,21 @@ function selezionaPosto(el, valore) {
   datiForm.posto = valore;
 }
 
-function toggleSpettacolo(card, id) {
-  const cb = card.querySelector('input[type=checkbox]');
-  const nuovoStato = !cb.checked;
-  cb.checked = nuovoStato;
-  card.classList.toggle('selezionata', nuovoStato);
-  if (nuovoStato) {
-    if (!datiForm.spettacoli.includes(id)) datiForm.spettacoli.push(id);
+function toggleSpettacolo(id) {
+  var card = document.getElementById('card' + id);
+  var check = document.getElementById('check' + id);
+  if (card.classList.contains('selezionata')) {
+    card.classList.remove('selezionata');
+    check.innerHTML = '&#9744;';
+    datiForm.spettacoli = datiForm.spettacoli.filter(function(s){ return s !== id; });
   } else {
-    datiForm.spettacoli = datiForm.spettacoli.filter(s => s !== id);
+    card.classList.add('selezionata');
+    check.innerHTML = '&#9745;';
+    if (datiForm.spettacoli.indexOf(id) === -1) datiForm.spettacoli.push(id);
   }
   document.getElementById('num-selezionati').textContent = datiForm.spettacoli.length;
   document.getElementById('err-spettacoli').classList.remove('visibile');
 }
-
-// Gestione click robusta per iframe (Google Sites)
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.spettacolo-card').forEach(function(card) {
-    // Rimuove onclick per evitare doppio trigger
-    var idVal = parseInt(card.getAttribute('onclick').match(/\d+/)[0]);
-    card.removeAttribute('onclick');
-
-    card.addEventListener('click', function(e) {
-      // Se il click viene dal checkbox, lascia che lo gestisca il browser
-      // poi sincronizza lo stato
-      setTimeout(function() {
-        var cb = card.querySelector('input[type=checkbox]');
-        var selezionata = cb.checked;
-        card.classList.toggle('selezionata', selezionata);
-        if (selezionata) {
-          if (!datiForm.spettacoli.includes(idVal)) datiForm.spettacoli.push(idVal);
-        } else {
-          datiForm.spettacoli = datiForm.spettacoli.filter(s => s !== idVal);
-        }
-        document.getElementById('num-selezionati').textContent = datiForm.spettacoli.length;
-        document.getElementById('err-spettacoli').classList.remove('visibile');
-      }, 0);
-    });
-
-    // Intercetta anche il label direttamente
-    card.querySelector('input[type=checkbox]').addEventListener('change', function(e) {
-      e.stopPropagation();
-      var selezionata = this.checked;
-      card.classList.toggle('selezionata', selezionata);
-      if (selezionata) {
-        if (!datiForm.spettacoli.includes(idVal)) datiForm.spettacoli.push(idVal);
-      } else {
-        datiForm.spettacoli = datiForm.spettacoli.filter(s => s !== idVal);
-      }
-      document.getElementById('num-selezionati').textContent = datiForm.spettacoli.length;
-      document.getElementById('err-spettacoli').classList.remove('visibile');
-    });
-  });
-});
 
 function vaiPag(n) {
   document.querySelectorAll('.pagina').forEach(p => p.classList.remove('attiva'));
@@ -828,8 +777,13 @@ function apriStampaRicevuta() {
 function nuovaRichiesta() {
   datiForm = { spettacoli: [] };
   document.querySelectorAll('input[type=text], input[type=email], input[type=tel], input[type=date]').forEach(i => i.value = '');
-  document.querySelectorAll('.spettacolo-card, .posto-opzione, .pullman-opzione').forEach(o => o.classList.remove('selezionata'));
-  document.querySelectorAll('input[type=radio], input[type=checkbox]').forEach(i => i.checked = false);
+  document.querySelectorAll('.spettacolo-card').forEach(function(c){ c.classList.remove('selezionata'); });
+  for (var i = 1; i <= 14; i++) {
+    var ch = document.getElementById('check' + i);
+    if (ch) ch.innerHTML = '&#9744;';
+  }
+  document.querySelectorAll('.posto-opzione, .pullman-opzione').forEach(o => o.classList.remove('selezionata'));
+  document.querySelectorAll('input[type=radio]').forEach(i => i.checked = false);
   document.querySelectorAll('.errore-msg').forEach(e => e.classList.remove('visibile'));
   document.querySelectorAll('.errore').forEach(e => e.classList.remove('errore'));
   document.getElementById('num-selezionati').textContent = '0';
