@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spettacoli Singoli Teatro Massimo Cagliari 2026/27 - LUTEC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f5f0e8;
+    min-height: 100vh;
+    padding: 20px;
+    color: #1a1a1a;
+  }
+  .page-header {
+    background: #1a4a6b;
+    color: white;
+    text-align: center;
+    padding: 28px 24px;
+    border-radius: 12px;
+    margin-bottom: 28px;
+  }
+  .page-header h1 { font-size: 24px; font-weight: bold; margin-bottom: 8px; line-height: 1.3; }
+  .page-header p { font-size: 16px; color: #b8d4e8; line-height: 1.5; }
+  .nota-box {
+    background: #fff8e1; border: 2px solid #f9a825; border-radius: 10px;
+    padding: 18px 22px; margin-bottom: 28px; font-size: 17px; line-height: 1.6; color: #5d4037;
+  }
+  .nota-box strong { color: #e65100; }
+  .sezione {
+    background: white; border-radius: 12px; border: 1.5px solid #7eb8d4;
+    margin-bottom: 24px; overflow: hidden;
+  }
+  .sezione-header {
+    background: #1a5276; color: white; padding: 14px 22px;
+    font-size: 20px; font-weight: bold;
+  }
+  .sezione-body { padding: 22px; }
+  .campo { margin-bottom: 22px; }
+  .campo label {
+    display: block; font-size: 18px; font-weight: bold;
+    color: #1a4a6b; margin-bottom: 8px;
+  }
+  .campo label .obbligatorio { color: #c62828; margin-left: 4px; }
+  .campo label .facoltativo { font-size: 14px; font-weight: normal; color: #666; margin-left: 6px; }
+  .campo input[type="text"],
+  .campo input[type="email"],
+  .campo input[type="tel"],
+  .campo input[type="date"],
+  .campo select {
+    width: 100%; padding: 14px 16px; font-size: 18px; font-family: Georgia, serif;
+    border: 2px solid #7eb8d4; border-radius: 8px; background: #f0f8ff;
+    color: #1a1a1a; outline: none; transition: border-color 0.2s;
+  }
+  .campo input:focus, .campo select:focus { border-color: #1a4a6b; background: white; }
+  .campo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .campo-row { grid-template-columns: 1fr; } }
+  .errore-msg { color: #c62828; font-size: 15px; margin-top: 6px; display: none; }
+  .errore-msg.visibile { display: block; }
+  .campo input.errore { border-color: #c62828; }
+  .pullman-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 500px) { .pullman-grid { grid-template-columns: 1fr; } }
+  .pullman-opzione {
+    display: flex; align-items: center; gap: 12px; background: #f0f6ff;
+    border: 2px solid #7eb8d4; border-radius: 10px; padding: 14px 16px;
+    cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  }
+  .pullman-opzione:hover { background: #e0f0ff; border-color: #1a7fa8; }
+  .pullman-opzione.selezionata { background: #d5eaf9; border-color: #1a4a6b; }
+  .pullman-opzione input[type="radio"] { width: 22px; height: 22px; accent-color: #1a4a6b; cursor: pointer; flex-shrink: 0; }
+  .pullman-opzione .nome-sede { font-size: 17px; font-weight: bold; color: #1a4a6b; }
+  .spettacolo-card {
+    display: flex; align-items: center; gap: 14px;
+    background: #f0f8ff; border: 2.5px solid #7eb8d4; border-radius: 10px;
+    padding: 18px 20px; margin-bottom: 12px; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    user-select: none; -webkit-user-select: none;
+  }
+  .spettacolo-card:hover { background: #e0f0ff; border-color: #1a4a6b; }
+  .spettacolo-card.selezionata { background: #d5eaf9; border-color: #1a4a6b; border-width: 3px; }
+  .spettacolo-card input[type="checkbox"] {
+    width: 28px; height: 28px; accent-color: #1a4a6b;
+    cursor: pointer; flex-shrink: 0; pointer-events: none;
+  }
+  .spettacolo-info { flex: 1; }
+  .spettacolo-titolo { font-size: 19px; font-weight: bold; color: #0d2233; }
+  .spettacolo-data { font-size: 16px; color: #555; margin-top: 4px; }
+  .spettacolo-tipo {
+    font-size: 12px; font-weight: bold; padding: 3px 10px; border-radius: 20px;
+    flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .tipo-prosa { background: #e3f2fd; color: #0d47a1; }
+  .tipo-danza { background: #d6eaf8; color: #1a5276; }
+  .prezzo-sp { font-size: 15px; font-weight: bold; color: #1a4a6b; margin-left: 8px; flex-shrink: 0; }
+  .categoria-label {
+    font-size: 16px; font-weight: bold; color: #1a5276;
+    margin: 20px 0 10px; padding-left: 4px;
+    border-left: 4px solid #1a5276; padding-left: 12px;
+  }
+  .posto-scelta { display: flex; flex-direction: column; gap: 10px; }
+  .posto-opzione {
+    display: flex; align-items: center; gap: 14px; background: #f0f8ff;
+    border: 2px solid #7eb8d4; border-radius: 10px; padding: 16px 18px;
+    cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  }
+  .posto-opzione:hover { background: #e0f0ff; border-color: #1a7fa8; }
+  .posto-opzione.selezionata { background: #d5eaf9; border-color: #1a4a6b; }
+  .posto-opzione input[type="radio"] { width: 22px; height: 22px; accent-color: #1a4a6b; cursor: pointer; flex-shrink: 0; }
+  .posto-opzione .etich { font-size: 18px; font-weight: bold; color: #0d2233; }
+  .step-indicator { display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; }
+  .step-dot { width: 14px; height: 14px; border-radius: 50%; background: #b8d4e8; transition: background 0.2s; }
+  .step-dot.attivo { background: #1a4a6b; }
+  .step-dot.completato { background: #43a047; }
+  .step-label { text-align: center; font-size: 15px; color: #555; margin-bottom: 18px; }
+  .pagina { display: none; }
+  .pagina.attiva { display: block; }
+  .btn-avanti {
+    display: block; width: 100%; padding: 18px; background: #1a4a6b; color: white;
+    font-size: 20px; font-weight: bold; font-family: Georgia, serif; border: none;
+    border-radius: 10px; cursor: pointer; text-align: center; margin-top: 8px; transition: background 0.2s;
+  }
+  .btn-avanti:hover { background: #0d2d4a; }
+  .btn-indietro {
+    display: block; width: 100%; padding: 16px; background: white; color: #1a4a6b;
+    font-size: 18px; font-weight: bold; font-family: Georgia, serif; border: 2px solid #1a4a6b;
+    border-radius: 10px; cursor: pointer; text-align: center; margin-top: 10px; transition: background 0.2s;
+  }
+  .btn-indietro:hover { background: #e0f0ff; }
+  .pagamento-info {
+    background: #e8f5e9; border: 2px solid #43a047; border-radius: 10px;
+    padding: 16px 20px; font-size: 17px; color: #2e7d32; margin-bottom: 20px; line-height: 1.5;
+  }
+  .riepilogo-box {
+    background: #f0f8ff; border: 1.5px solid #7eb8d4; border-radius: 10px;
+    padding: 20px; font-size: 17px; line-height: 2; margin-bottom: 20px;
+  }
+  .riepilogo-box .riga { display: flex; justify-content: space-between; border-bottom: 1px solid #d5eaf9; padding: 6px 0; }
+  .riepilogo-box .riga:last-child { border-bottom: none; }
+  .riepilogo-box .etich { color: #444; }
+  .riepilogo-box .valore { font-weight: bold; color: #1a4a6b; text-align: right; max-width: 65%; }
+  .avviso-invio {
+    background: #e3f2fd; border: 2px solid #1565c0; border-radius: 10px;
+    padding: 16px 20px; font-size: 17px; color: #0d47a1; margin-bottom: 20px; line-height: 1.6;
+  }
+  .spinner { display: none; text-align: center; padding: 12px; font-size: 16px; color: #555; }
+  .spinner.visibile { display: block; }
+  .ricevuta-box {
+    background: white; border: 2px solid #1a4a6b; border-radius: 12px;
+    padding: 28px; max-width: 620px; margin: 0 auto 24px;
+  }
+  .ricevuta-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1a4a6b; padding-bottom: 16px; }
+  .ricevuta-header h2 { font-size: 22px; color: #1a4a6b; }
+  .ricevuta-header p { font-size: 14px; color: #666; margin-top: 4px; }
+  .ricevuta-campo { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #d5eaf9; font-size: 16px; }
+  .ricevuta-campo:last-child { border-bottom: none; }
+  .r-label { color: #555; flex-shrink: 0; }
+  .r-valore { font-weight: bold; color: #1a1a1a; text-align: right; max-width: 60%; }
+  .ricevuta-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid #7eb8d4; font-size: 13px; color: #888; }
+  .btn-stampa {
+    display: inline-block; padding: 16px 32px; background: #2e7d32; color: white;
+    font-size: 18px; font-weight: bold; font-family: Georgia, serif; border: none;
+    border-radius: 10px; cursor: pointer; margin: 6px; transition: background 0.2s;
+  }
+  .btn-stampa:hover { background: #1b5e20; }
+  .btn-nuovo {
+    display: inline-block; padding: 14px 28px; background: white; color: #1a4a6b;
+    font-size: 17px; font-weight: bold; font-family: Georgia, serif; border: 2px solid #1a4a6b;
+    border-radius: 10px; cursor: pointer; margin: 6px; transition: background 0.2s;
+  }
+  .btn-nuovo:hover { background: #e0f0ff; }
+  .btn-azioni { text-align: center; margin-top: 10px; }
+  .contatore-spettacoli {
+    background: #e5f0f5; border: 1.5px solid #1a7fa8; border-radius: 8px;
+    padding: 12px 16px; font-size: 17px; color: #1a4a6b; margin-bottom: 16px; font-weight: bold;
+  }
+  @media print {
+    body { background: white; padding: 0; }
+    .no-print { display: none !important; }
+    .ricevuta-box { border: 1px solid #333; box-shadow: none; max-width: 100%; }
+    .page-header { background: #1a4a6b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🎭 Scelta Spettacoli Singoli — Teatro Massimo Cagliari 2026/27</h1>
+  <p>Compilare con attenzione tutti i campi. I campi con <strong>*</strong> sono obbligatori.</p>
+</div>
+
+<div class="nota-box">
+  <strong>⚠️ Nota importante:</strong> L'acquisto dei biglietti comporta necessariamente
+  l'iscrizione alla LUTEC per l'Anno Accademico 2026/27 al costo di
+  <strong>€ 40,00 per persona</strong> (oppure <strong>€ 70,00</strong> nel caso di una coppia).
+  Il pagamento per l'iscrizione ed i biglietti prescelti avverrà tramite <strong>POS in sede</strong>.
+</div>
+
+<div class="step-indicator">
+  <div class="step-dot attivo" id="dot1"></div>
+  <div class="step-dot" id="dot2"></div>
+  <div class="step-dot" id="dot3"></div>
+</div>
+<div class="step-label" id="step-label">Pagina 1 di 3 — Dati Personali</div>
+
+<!-- PAGINA 1: DATI ANAGRAFICI -->
+<div class="pagina attiva" id="pag1">
+  <div class="sezione">
+    <div class="sezione-header">📋 Scheda Anagrafica</div>
+    <div class="sezione-body">
+
+      <div class="campo">
+        <label for="email">Indirizzo Email <span class="facoltativo">(facoltativo)</span></label>
+        <input type="email" id="email" placeholder="esempio@email.it">
+      </div>
+
+      <div class="campo-row">
+        <div class="campo">
+          <label for="cognome">Cognome <span class="obbligatorio">*</span></label>
+          <input type="text" id="cognome" placeholder="Cognome">
+          <div class="errore-msg" id="err-cognome">Inserire il cognome</div>
+        </div>
+        <div class="campo">
+          <label for="nome">Nome <span class="obbligatorio">*</span></label>
+          <input type="text" id="nome" placeholder="Nome">
+          <div class="errore-msg" id="err-nome">Inserire il nome</div>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="telefono">Numero di Telefono <span class="obbligatorio">*</span></label>
+        <input type="tel" id="telefono" placeholder="Es. 333 1234567">
+        <div class="errore-msg" id="err-telefono">Inserire il numero di telefono</div>
+      </div>
+
+      <div class="campo-row">
+        <div class="campo">
+          <label for="datanascita">Data di Nascita <span class="facoltativo">(facoltativo)</span></label>
+          <input type="date" id="datanascita">
+        </div>
+        <div class="campo">
+          <label for="codicefiscale">Codice Fiscale <span class="facoltativo">(facoltativo)</span></label>
+          <input type="text" id="codicefiscale" placeholder="Es. RSSMRA80A01H501U" style="text-transform:uppercase">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="comune">Comune di Residenza <span class="facoltativo">(facoltativo)</span></label>
+        <input type="text" id="comune" placeholder="Es. Carbonia">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="sezione">
+    <div class="sezione-header">🚌 Sede di Partenza del Pullman</div>
+    <div class="sezione-body">
+      <div class="campo">
+        <label>Da dove prendi il pullman per il Teatro Massimo? <span class="facoltativo">(facoltativo)</span></label>
+        <div class="pullman-grid">
+          <div class="pullman-opzione" onclick="selezionaPullman(this, 'Sant\'Antioco')">
+            <input type="radio" name="pullman" value="Sant'Antioco">
+            <span class="nome-sede">Sant'Antioco</span>
+          </div>
+          <div class="pullman-opzione" onclick="selezionaPullman(this, 'San Giovanni Suergiu')">
+            <input type="radio" name="pullman" value="San Giovanni Suergiu">
+            <span class="nome-sede">San Giovanni Suergiu</span>
+          </div>
+          <div class="pullman-opzione" onclick="selezionaPullman(this, 'Carbonia')">
+            <input type="radio" name="pullman" value="Carbonia">
+            <span class="nome-sede">Carbonia</span>
+          </div>
+          <div class="pullman-opzione" onclick="selezionaPullman(this, 'Villamassargia')">
+            <input type="radio" name="pullman" value="Villamassargia">
+            <span class="nome-sede">Villamassargia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-avanti" onclick="vaiPag2()">Avanti ➜</button>
+</div>
+
+<!-- PAGINA 2: SCELTA SPETTACOLI -->
+<div class="pagina" id="pag2">
+  <div class="sezione">
+    <div class="sezione-header">🎬 Scegli gli Spettacoli</div>
+    <div class="sezione-body">
+      <div class="contatore-spettacoli" id="contatore">
+        ☑️ Spettacoli selezionati: <span id="num-selezionati">0</span>
+      </div>
+
+      <div class="categoria-label">🎭 Prosa</div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 1)">
+        <input type="checkbox" id="sp1">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">The Opera Locos</div>
+          <div class="spettacolo-data">📅 29 novembre 2026</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 2)">
+        <input type="checkbox" id="sp2">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Breaking Brecht</div>
+          <div class="spettacolo-data">📅 13 dicembre 2026</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 3)">
+        <input type="checkbox" id="sp3">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Stato contro Nolan</div>
+          <div class="spettacolo-data">📅 31 gennaio 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 4)">
+        <input type="checkbox" id="sp4">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Lisistrata</div>
+          <div class="spettacolo-data">📅 14 febbraio 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 5)">
+        <input type="checkbox" id="sp5">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">La Cosmicomica vita di Q</div>
+          <div class="spettacolo-data">📅 28 febbraio 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 6)">
+        <input type="checkbox" id="sp6">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Come Mandela</div>
+          <div class="spettacolo-data">📅 14 marzo 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 7)">
+        <input type="checkbox" id="sp7">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Nessuno. Le avventure di Ulisse</div>
+          <div class="spettacolo-data">📅 21 marzo 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 8)">
+        <input type="checkbox" id="sp8">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">L'inconveniente</div>
+          <div class="spettacolo-data">📅 4 aprile 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 9)">
+        <input type="checkbox" id="sp9">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Dopo la prova</div>
+          <div class="spettacolo-data">📅 18 aprile 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 10)">
+        <input type="checkbox" id="sp10">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Pirandello Pulp</div>
+          <div class="spettacolo-data">📅 9 maggio 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+
+      </div>
+
+      <div class="categoria-label" style="margin-top:28px;">💃 Danza</div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 11)">
+        <input type="checkbox" id="sp11">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">L.A.V.A.</div>
+          <div class="spettacolo-data">📅 20 dicembre 2026</div>
+        </div>
+        <span class="spettacolo-tipo tipo-danza">Danza</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 12)">
+        <input type="checkbox" id="sp12">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Lo schiaccianoci</div>
+          <div class="spettacolo-data">📅 6 gennaio 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-danza">Danza</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 13)">
+        <input type="checkbox" id="sp13">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Don Quixote</div>
+          <div class="spettacolo-data">📅 17 gennaio 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-danza">Danza</span>
+
+      </div>
+
+      <div class="spettacolo-card" onclick="toggleSpettacolo(this, 14)">
+        <input type="checkbox" id="sp14">
+        <div class="spettacolo-info">
+          <div class="spettacolo-titolo">Giselle</div>
+          <div class="spettacolo-data">📅 11 aprile 2027</div>
+        </div>
+        <span class="spettacolo-tipo tipo-danza">Danza</span>
+
+      </div>
+
+      <div class="errore-msg" id="err-spettacoli" style="font-size:17px; margin-top:12px;">Selezionare almeno uno spettacolo</div>
+    </div>
+  </div>
+
+  <div class="sezione">
+    <div class="sezione-header">🎟️ Tipo di Posto</div>
+    <div class="sezione-body">
+      <div class="campo">
+        <label>Platea o Loggione? <span class="obbligatorio">*</span></label>
+        <div class="posto-scelta">
+          <div class="posto-opzione" onclick="selezionaPosto(this, 'Platea')">
+            <input type="radio" name="posto" value="Platea">
+            <span class="etich">Platea</span>
+          </div>
+          <div class="posto-opzione" onclick="selezionaPosto(this, 'Loggione')">
+            <input type="radio" name="posto" value="Loggione">
+            <span class="etich">Loggione</span>
+          </div>
+        </div>
+        <div class="errore-msg" id="err-posto">Selezionare Platea o Loggione</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagamento-info">
+    💳 <strong>Modalità di pagamento:</strong> Il pagamento avverrà tramite <strong>POS in sede</strong> al momento del ritiro dei biglietti.
+  </div>
+
+  <button class="btn-avanti" onclick="vaiPag3()">Avanti — Riepilogo ➜</button>
+  <button class="btn-indietro" onclick="vaiPag(1)">← Indietro</button>
+</div>
+
+<!-- PAGINA 3: RIEPILOGO -->
+<div class="pagina" id="pag3">
+  <div class="sezione">
+    <div class="sezione-header">✅ Riepilogo della Tua Richiesta</div>
+    <div class="sezione-body">
+      <div class="riepilogo-box" id="riepilogo-content"></div>
+      <div class="avviso-invio">
+        ℹ️ Controllare attentamente i dati. Cliccando <strong>"Invia Richiesta"</strong> i tuoi dati saranno registrati.
+        Poi potrai <strong>stampare la ricevuta</strong> da portare in sede per il pagamento.
+      </div>
+      <div class="spinner" id="spinner">⏳ Invio in corso, attendere...</div>
+      <button class="btn-avanti" id="btn-invia" onclick="inviaRichiesta()" style="background:#2e7d32;">✅ Invia Richiesta</button>
+      <button class="btn-indietro" onclick="vaiPag(2)">← Indietro</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGINA 4: RICEVUTA -->
+<div class="pagina" id="pag4">
+  <div class="sezione">
+    <div class="sezione-header">🎉 Richiesta Inviata con Successo!</div>
+    <div class="sezione-body">
+      <div class="ricevuta-box" id="ricevuta">
+        <div class="ricevuta-header">
+          <h2>LUTEC — Teatro Massimo Cagliari 2026/27</h2>
+          <p>RICEVUTA DI RICHIESTA BIGLIETTI SPETTACOLI SINGOLI</p>
+          <p id="ricevuta-data-ora" style="font-size:13px; color:#888; margin-top:4px;"></p>
+        </div>
+        <div id="ricevuta-campi"></div>
+        <div class="ricevuta-footer">
+          Il pagamento avverrà tramite POS in sede.<br>
+          Portare questa ricevuta al momento del pagamento.<br>
+          <strong>LUTEC — Libera Università della Terza Età di Carbonia</strong>
+        </div>
+      </div>
+      <div class="btn-azioni no-print">
+        <button class="btn-stampa" onclick="apriStampaRicevuta()">🖨️ Stampa / Salva PDF</button>
+        <button class="btn-nuovo" onclick="nuovaRichiesta()">🔄 Nuova Richiesta</button>
+      </div>
+      <p style="text-align:center; font-size:14px; color:#666; margin-top:10px;" class="no-print">
+        Si aprirà una nuova finestra — scegli "Salva come PDF" invece della stampante per salvare il file.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtdhjc6dbMPP7PJp0_Ib-FT-W7EmxIRumysWpr3p1zP8xnQoGwzp_TYGeHXPx3s5QVBw/exec';
+
+const SPETTACOLI = {
+  1:  { titolo: 'The Opera Locos',               data: '29/11/2026', tipo: 'Prosa' },
+  2:  { titolo: 'Breaking Brecht',               data: '13/12/2026', tipo: 'Prosa' },
+  3:  { titolo: 'Stato contro Nolan',            data: '31/01/2027', tipo: 'Prosa' },
+  4:  { titolo: 'Lisistrata',                    data: '14/02/2027', tipo: 'Prosa' },
+  5:  { titolo: 'La Cosmicomica vita di Q',      data: '28/02/2027', tipo: 'Prosa' },
+  6:  { titolo: 'Come Mandela',                  data: '14/03/2027', tipo: 'Prosa' },
+  7:  { titolo: 'Nessuno. Le avventure di Ulisse', data: '21/03/2027', tipo: 'Prosa' },
+  8:  { titolo: "L'inconveniente",               data: '04/04/2027', tipo: 'Prosa' },
+  9:  { titolo: 'Dopo la prova',                 data: '18/04/2027', tipo: 'Prosa' },
+  10: { titolo: 'Pirandello Pulp',               data: '09/05/2027', tipo: 'Prosa' },
+  11: { titolo: 'L.A.V.A.',                      data: '20/12/2026', tipo: 'Danza' },
+  12: { titolo: 'Lo schiaccianoci',              data: '06/01/2027', tipo: 'Danza' },
+  13: { titolo: 'Don Quixote',                   data: '17/01/2027', tipo: 'Danza' },
+  14: { titolo: 'Giselle',                       data: '11/04/2027', tipo: 'Danza' }
+};
+
+let datiForm = { spettacoli: [] };
+
+function selezionaPullman(el, valore) {
+  document.querySelectorAll('.pullman-opzione').forEach(o => o.classList.remove('selezionata'));
+  el.classList.add('selezionata');
+  el.querySelector('input').checked = true;
+  datiForm.pullman = valore;
+}
+
+function selezionaPosto(el, valore) {
+  document.querySelectorAll('.posto-opzione').forEach(o => o.classList.remove('selezionata'));
+  el.classList.add('selezionata');
+  el.querySelector('input').checked = true;
+  datiForm.posto = valore;
+}
+
+function toggleSpettacolo(card, id) {
+  const cb = card.querySelector('input[type=checkbox]');
+  const nuovoStato = !cb.checked;
+  cb.checked = nuovoStato;
+  card.classList.toggle('selezionata', nuovoStato);
+  if (nuovoStato) {
+    if (!datiForm.spettacoli.includes(id)) datiForm.spettacoli.push(id);
+  } else {
+    datiForm.spettacoli = datiForm.spettacoli.filter(s => s !== id);
+  }
+  document.getElementById('num-selezionati').textContent = datiForm.spettacoli.length;
+  document.getElementById('err-spettacoli').classList.remove('visibile');
+}
+
+// Gestione click robusta per iframe (Google Sites)
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.spettacolo-card').forEach(function(card) {
+    // Rimuove onclick per evitare doppio trigger
+    var idVal = parseInt(card.getAttribute('onclick').match(/\d+/)[0]);
+    card.removeAttribute('onclick');
+
+    card.addEventListener('click', function(e) {
+      // Se il click viene dal checkbox, lascia che lo gestisca il browser
+      // poi sincronizza lo stato
+      setTimeout(function() {
+        var cb = card.querySelector('input[type=checkbox]');
+        var selezionata = cb.checked;
+        card.classList.toggle('selezionata', selezionata);
+        if (selezionata) {
+          if (!datiForm.spettacoli.includes(idVal)) datiForm.spettacoli.push(idVal);
+        } else {
+          datiForm.spettacoli = datiForm.spettacoli.filter(s => s !== idVal);
+        }
+        document.getElementById('num-selezionati').textContent = datiForm.spettacoli.length;
+        document.getElementById('err-spettacoli').classList.remove('visibile');
+      }, 0);
+    });
+
+    // Intercetta anche il label direttamente
+    card.querySelector('input[type=checkbox]').addEventListener('change', function(e) {
+      e.stopPropagation();
+      var selezionata = this.checked;
+      card.classList.toggle('selezionata', selezionata);
+      if (selezionata) {
+        if (!datiForm.spettacoli.includes(idVal)) datiForm.spettacoli.push(idVal);
+      } else {
+        datiForm.spettacoli = datiForm.spettacoli.filter(s => s !== idVal);
+      }
+      document.getElementById('num-selezionati').textContent = datiForm.spettacoli.length;
+      document.getElementById('err-spettacoli').classList.remove('visibile');
+    });
+  });
+});
+
+function vaiPag(n) {
+  document.querySelectorAll('.pagina').forEach(p => p.classList.remove('attiva'));
+  document.getElementById('pag' + n).classList.add('attiva');
+  const labels = ['', 'Pagina 1 di 3 — Dati Personali', 'Pagina 2 di 3 — Scelta Spettacoli', 'Pagina 3 di 3 — Riepilogo', ''];
+  document.getElementById('step-label').textContent = labels[n] || '';
+  ['dot1','dot2','dot3'].forEach((d, i) => {
+    const dot = document.getElementById(d);
+    dot.className = 'step-dot';
+    if (i + 1 < n) dot.classList.add('completato');
+    else if (i + 1 === n) dot.classList.add('attivo');
+  });
+  window.scrollTo(0, 0);
+}
+
+function vaiPag2() {
+  let ok = true;
+  const cognome = document.getElementById('cognome').value.trim();
+  const nome = document.getElementById('nome').value.trim();
+  const tel = document.getElementById('telefono').value.trim();
+  if (!cognome) { document.getElementById('err-cognome').classList.add('visibile'); document.getElementById('cognome').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-cognome').classList.remove('visibile'); document.getElementById('cognome').classList.remove('errore'); }
+  if (!nome) { document.getElementById('err-nome').classList.add('visibile'); document.getElementById('nome').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-nome').classList.remove('visibile'); document.getElementById('nome').classList.remove('errore'); }
+  if (!tel) { document.getElementById('err-telefono').classList.add('visibile'); document.getElementById('telefono').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-telefono').classList.remove('visibile'); document.getElementById('telefono').classList.remove('errore'); }
+  if (!ok) return;
+  datiForm.email = document.getElementById('email').value.trim();
+  datiForm.cognome = cognome;
+  datiForm.nome = nome;
+  datiForm.telefono = tel;
+  datiForm.datanascita = document.getElementById('datanascita').value;
+  datiForm.codicefiscale = document.getElementById('codicefiscale').value.trim().toUpperCase();
+  datiForm.comune = document.getElementById('comune').value.trim();
+  vaiPag(2);
+}
+
+function formatData(d) {
+  if (!d) return '';
+  const p = d.split('-');
+  return p[2] + '/' + p[1] + '/' + p[0];
+}
+
+function vaiPag3() {
+  let ok = true;
+  if (datiForm.spettacoli.length === 0) { document.getElementById('err-spettacoli').classList.add('visibile'); ok = false; }
+  else document.getElementById('err-spettacoli').classList.remove('visibile');
+  if (!datiForm.posto) { document.getElementById('err-posto').classList.add('visibile'); ok = false; }
+  else document.getElementById('err-posto').classList.remove('visibile');
+  if (!ok) return;
+
+  const elencoSp = datiForm.spettacoli.sort((a,b) => a-b).map(id =>
+    `${SPETTACOLI[id].titolo} (${SPETTACOLI[id].data} — ${SPETTACOLI[id].tipo})`
+  ).join('<br>');
+
+  let html = `
+    <div class="riga"><span class="etich">Nominativo</span><span class="valore">${datiForm.cognome} ${datiForm.nome}</span></div>
+    <div class="riga"><span class="etich">Telefono</span><span class="valore">${datiForm.telefono}</span></div>`;
+  if (datiForm.email) html += `<div class="riga"><span class="etich">Email</span><span class="valore">${datiForm.email}</span></div>`;
+  if (datiForm.datanascita) html += `<div class="riga"><span class="etich">Data di nascita</span><span class="valore">${formatData(datiForm.datanascita)}</span></div>`;
+  if (datiForm.codicefiscale) html += `<div class="riga"><span class="etich">Codice Fiscale</span><span class="valore">${datiForm.codicefiscale}</span></div>`;
+  if (datiForm.comune) html += `<div class="riga"><span class="etich">Comune</span><span class="valore">${datiForm.comune}</span></div>`;
+  if (datiForm.pullman) html += `<div class="riga"><span class="etich">Pullman da</span><span class="valore">${datiForm.pullman}</span></div>`;
+  html += `
+    <div class="riga"><span class="etich">Tipo posto</span><span class="valore">${datiForm.posto}</span></div>
+    <div class="riga"><span class="etich">N. spettacoli scelti</span><span class="valore">${datiForm.spettacoli.length}</span></div>
+    <div class="riga" style="flex-direction:column; gap:6px;"><span class="etich">Spettacoli selezionati</span><span class="valore" style="max-width:100%; text-align:left; color:#1a4a6b; font-size:16px; line-height:1.8;">${elencoSp}</span></div>
+
+    <div class="riga"><span class="etich">Quota iscrizione LUTEC</span><span class="valore">€ 40,00 (singolo) / € 70,00 (coppia)</span></div>
+  `;
+  document.getElementById('riepilogo-content').innerHTML = html;
+  vaiPag(3);
+}
+
+function inviaRichiesta() {
+  document.getElementById('btn-invia').disabled = true;
+  document.getElementById('spinner').classList.add('visibile');
+
+  const spettacoliList = datiForm.spettacoli.sort((a,b) => a-b).map(id =>
+    `${SPETTACOLI[id].titolo} (${SPETTACOLI[id].data})`
+  ).join(' | ');
+
+  const payload = {
+    timestamp: new Date().toLocaleString('it-IT'),
+    email: datiForm.email || '',
+    cognome: datiForm.cognome,
+    nome: datiForm.nome,
+    telefono: datiForm.telefono,
+    datanascita: datiForm.datanascita ? formatData(datiForm.datanascita) : '',
+    codicefiscale: datiForm.codicefiscale || '',
+    comune: datiForm.comune || '',
+    pullman: datiForm.pullman || '',
+    posto: datiForm.posto,
+    numSpettacoli: datiForm.spettacoli.length,
+    spettacoli: spettacoliList
+  };
+
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(() => mostraRicevuta(payload)).catch(() => mostraRicevuta(payload));
+}
+
+let ricevutaPayload = null;
+let ricevutaSpettacoli = [];
+
+function mostraRicevuta(payload) {
+  document.getElementById('spinner').classList.remove('visibile');
+  ricevutaPayload = payload;
+  ricevutaSpettacoli = [...datiForm.spettacoli];
+  const ora = new Date();
+  const dataOra = ora.toLocaleDateString('it-IT') + ' ore ' + ora.toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' });
+  document.getElementById('ricevuta-data-ora').textContent = 'Compilato il: ' + dataOra;
+
+  let campi = [
+    ['Cognome e Nome', payload.cognome + ' ' + payload.nome],
+    ['Telefono', payload.telefono],
+  ];
+  if (payload.email) campi.push(['Email', payload.email]);
+  if (payload.datanascita) campi.push(['Data di nascita', payload.datanascita]);
+  if (payload.codicefiscale) campi.push(['Codice Fiscale', payload.codicefiscale]);
+  if (payload.comune) campi.push(['Comune di residenza', payload.comune]);
+  if (payload.pullman) campi.push(['Pullman da', payload.pullman]);
+  campi.push(['Tipo posto', payload.posto]);
+  campi.push(['N. spettacoli scelti', payload.numSpettacoli]);
+  ricevutaSpettacoli.sort((a,b) => a-b).forEach(id => {
+    const s = SPETTACOLI[id];
+    campi.push([s.tipo + ': ' + s.titolo, s.data]);
+  });
+  campi.push(['Iscrizione LUTEC 2026/27', '€ 40,00 (singolo) / € 70,00 (coppia)']);
+  campi.push(['Modalità pagamento', 'POS in sede']);
+
+  document.getElementById('ricevuta-campi').innerHTML = campi.map(([l, v]) =>
+    `<div class="ricevuta-campo"><span class="r-label">${l}</span><span class="r-valore">${v}</span></div>`
+  ).join('');
+
+  document.getElementById('step-label').textContent = 'Richiesta completata!';
+  ['dot1','dot2','dot3'].forEach(d => { document.getElementById(d).className = 'step-dot completato'; });
+  vaiPag(4);
+}
+
+function apriStampaRicevuta() {
+  if (!ricevutaPayload) return;
+  const p = ricevutaPayload;
+  const ora = new Date();
+  const dataOra = ora.toLocaleDateString('it-IT') + ' ore ' + ora.toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' });
+
+  let righe = [
+    ['Cognome e Nome', p.cognome + ' ' + p.nome],
+    ['Telefono', p.telefono],
+  ];
+  if (p.email) righe.push(['Email', p.email]);
+  if (p.datanascita) righe.push(['Data di nascita', p.datanascita]);
+  if (p.codicefiscale) righe.push(['Codice Fiscale', p.codicefiscale]);
+  if (p.comune) righe.push(['Comune di residenza', p.comune]);
+  if (p.pullman) righe.push(['Pullman da', p.pullman]);
+  righe.push(['Tipo posto', p.posto]);
+  righe.push(['N. spettacoli scelti', p.numSpettacoli]);
+  ricevutaSpettacoli.sort((a,b) => a-b).forEach(id => {
+    const s = SPETTACOLI[id];
+    righe.push([s.tipo + ': ' + s.titolo, s.data]);
+  });
+  righe.push(['Iscrizione LUTEC 2026/27', '€ 40,00 (singolo) / € 70,00 (coppia)']);
+  righe.push(['Modalità pagamento', 'POS in sede']);
+
+  const campiHtml = righe.map(([l, v]) => `
+    <tr>
+      <td style="padding:10px 14px; border-bottom:1px solid #e0e4f0; color:#555; width:50%;">${l}</td>
+      <td style="padding:10px 14px; border-bottom:1px solid #e0e4f0; font-weight:bold; color:#1a1a1a; text-align:right;">${v}</td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Ricevuta Spettacoli — ${p.cognome} ${p.nome}</title>
+<style>
+  body { font-family: Georgia, serif; background: #f5f0e8; margin: 0; padding: 30px; }
+  .box { background: white; border: 2px solid #1a4a6b; border-radius: 12px; padding: 32px; max-width: 620px; margin: 0 auto; }
+  .testata { text-align: center; border-bottom: 2px solid #1a4a6b; padding-bottom: 18px; margin-bottom: 20px; }
+  .testata h1 { font-size: 22px; color: #1a4a6b; margin: 0 0 6px; }
+  .testata p { font-size: 14px; color: #666; margin: 4px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .piede { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #7eb8d4; font-size: 13px; color: #888; line-height: 1.7; }
+  .btn-stampa { display: block; margin: 24px auto 0; padding: 14px 36px; background: #1a4a6b; color: white; font-size: 18px; font-family: Georgia, serif; border: none; border-radius: 8px; cursor: pointer; }
+  .btn-stampa:hover { background: #0d2d4a; }
+  @media print {
+    body { background: white; padding: 0; }
+    .btn-stampa { display: none; }
+    .box { border: 1px solid #333; }
+  }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="testata">
+    <h1>LUTEC — Teatro Massimo Cagliari 2026/27</h1>
+    <p>RICEVUTA DI RICHIESTA SPETTACOLI SINGOLI</p>
+    <p style="font-size:12px; color:#999;">Compilata il: ${dataOra}</p>
+  </div>
+  <table>${campiHtml}</table>
+  <div class="piede">
+    Portare questa ricevuta al momento del pagamento in sede.<br>
+    Il pagamento avverrà tramite <strong>POS in sede</strong>.<br>
+    <strong>LUTEC — Libera Università della Terza Età di Carbonia</strong>
+  </div>
+  <button class="btn-stampa" onclick="window.print()">🖨️ Stampa / Salva come PDF</button>
+</div>
+<script>
+  window.onload = function() {
+    setTimeout(function() { window.print(); }, 600);
+  };
+<\/script>
+</body>
+</html>`;
+
+  const finestra = window.open('', '_blank', 'width=700,height=650');
+  finestra.document.write(html);
+  finestra.document.close();
+}
+
+function nuovaRichiesta() {
+  datiForm = { spettacoli: [] };
+  document.querySelectorAll('input[type=text], input[type=email], input[type=tel], input[type=date]').forEach(i => i.value = '');
+  document.querySelectorAll('.spettacolo-card, .posto-opzione, .pullman-opzione').forEach(o => o.classList.remove('selezionata'));
+  document.querySelectorAll('input[type=radio], input[type=checkbox]').forEach(i => i.checked = false);
+  document.querySelectorAll('.errore-msg').forEach(e => e.classList.remove('visibile'));
+  document.querySelectorAll('.errore').forEach(e => e.classList.remove('errore'));
+  document.getElementById('num-selezionati').textContent = '0';
+  document.getElementById('btn-invia').disabled = false;
+  vaiPag(1);
+}
+</script>
+</body>
+</html>
