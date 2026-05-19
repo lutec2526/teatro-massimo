@@ -56,9 +56,19 @@
   .campo input:focus, .campo select:focus { border-color: #1a4a6b; background: white; }
   .campo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 600px) { .campo-row { grid-template-columns: 1fr; } }
-  .errore-msg { color: #c62828; font-size: 15px; margin-top: 6px; display: none; }
+    .errore-msg {
+    color: #c62828;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #fff0f0;
+    border: 2px solid #c62828;
+    border-radius: 8px;
+    display: none;
+  }
   .errore-msg.visibile { display: block; }
-  .campo input.errore { border-color: #c62828; }
+  .campo input.errore { border-color: #c62828; background: #fff8f8; }
   .pullman-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (max-width: 500px) { .pullman-grid { grid-template-columns: 1fr; } }
   .pullman-opzione {
@@ -569,6 +579,14 @@ function toggleSpettacolo(id) {
   document.getElementById('err-spettacoli').classList.remove('visibile');
 }
 
+
+function scorriAlPrimoErrore() {
+  const primo = document.querySelector('.errore-msg.visibile, .campo input.errore');
+  if (primo) {
+    primo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
 function vaiPag(n) {
   document.querySelectorAll('.pagina').forEach(p => p.classList.remove('attiva'));
   document.getElementById('pag' + n).classList.add('attiva');
@@ -610,7 +628,7 @@ function vaiPag2() {
   if (!datiForm.pullman) { document.getElementById('err-pullman').classList.add('visibile'); ok = false; }
   else { document.getElementById('err-pullman').classList.remove('visibile'); }
 
-  if (!ok) return;
+  if (!ok) { scorriAlPrimoErrore(); return; }
   datiForm.email = email;
   datiForm.cognome = cognome;
   datiForm.nome = nome;
@@ -633,7 +651,7 @@ function vaiPag3() {
   else document.getElementById('err-spettacoli').classList.remove('visibile');
   if (!datiForm.posto) { document.getElementById('err-posto').classList.add('visibile'); ok = false; }
   else document.getElementById('err-posto').classList.remove('visibile');
-  if (!ok) return;
+  if (!ok) { scorriAlPrimoErrore(); return; }
 
   const elencoSp = datiForm.spettacoli.sort((a,b) => a-b).map(id =>
     `${SPETTACOLI[id].titolo} (${SPETTACOLI[id].data} — ${SPETTACOLI[id].tipo})`
