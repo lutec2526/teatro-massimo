@@ -211,8 +211,9 @@
     <div class="sezione-body">
 
       <div class="campo">
-        <label for="email">Indirizzo Email <span class="facoltativo">(facoltativo)</span></label>
+        <label for="email">Indirizzo Email <span class="obbligatorio">*</span></label>
         <input type="email" id="email" placeholder="esempio@email.it">
+        <div class="errore-msg" id="err-email">Inserire l'indirizzo email</div>
       </div>
 
       <div class="campo-row">
@@ -236,28 +237,31 @@
 
       <div class="campo-row">
         <div class="campo">
-          <label for="datanascita">Data di Nascita <span class="facoltativo">(facoltativo)</span></label>
+          <label for="datanascita">Data di Nascita <span class="obbligatorio">*</span></label>
           <input type="date" id="datanascita">
+          <div class="errore-msg" id="err-datanascita">Inserire la data di nascita</div>
         </div>
         <div class="campo">
-          <label for="codicefiscale">Codice Fiscale <span class="facoltativo">(facoltativo)</span></label>
+          <label for="codicefiscale">Codice Fiscale <span class="obbligatorio">*</span></label>
           <input type="text" id="codicefiscale" placeholder="Es. RSSMRA80A01H501U" style="text-transform:uppercase">
+          <div class="errore-msg" id="err-codicefiscale">Inserire il codice fiscale</div>
         </div>
       </div>
 
       <div class="campo">
-        <label for="comune">Comune di Residenza <span class="facoltativo">(facoltativo)</span></label>
+        <label for="comune">Comune di Residenza <span class="obbligatorio">*</span></label>
         <input type="text" id="comune" placeholder="Es. Carbonia">
+        <div class="errore-msg" id="err-comune">Inserire il comune di residenza</div>
       </div>
 
     </div>
   </div>
 
   <div class="sezione">
-    <div class="sezione-header">🚌 Sede di Partenza del Pullman</div>
+    <div class="sezione-header">🚌 Da dove prendi il pullman per il Teatro Massimo? <span style="font-size:16px;">*</span></div>
     <div class="sezione-body">
       <div class="campo">
-        <label>Da dove prendi il pullman per il Teatro Massimo? <span class="facoltativo">(facoltativo)</span></label>
+        <label>Seleziona la tua sede di partenza <span class="obbligatorio">*</span></label>
         <div class="pullman-grid">
           <div class="pullman-opzione" onclick="selezionaPullman(this, 'Sant\'Antioco')">
             <input type="radio" name="pullman" value="Sant'Antioco">
@@ -276,6 +280,7 @@
             <span class="nome-sede">Villamassargia</span>
           </div>
         </div>
+        <div class="errore-msg" id="err-pullman">Selezionare la sede di partenza del pullman</div>
       </div>
     </div>
   </div>
@@ -521,6 +526,8 @@ const SPETTACOLI = {
 };
 
 let datiForm = { spettacoli: [] };
+const PREZZO_PLATEA = '€ 30';
+const PREZZO_LOGGIONE = '€ 15';
 
 function selezionaPullman(el, valore) {
   document.querySelectorAll('.pullman-opzione').forEach(o => o.classList.remove('selezionata'));
@@ -534,6 +541,16 @@ function selezionaPosto(el, valore) {
   el.classList.add('selezionata');
   el.querySelector('input').checked = true;
   datiForm.posto = valore;
+  const prezzo = valore === 'Platea' ? PREZZO_PLATEA : PREZZO_LOGGIONE;
+  document.querySelectorAll('.posto-opzione').forEach(o => {
+    const sp = o.querySelector('.prezzo-posto');
+    if (sp) sp.remove();
+  });
+  const badge = document.createElement('span');
+  badge.className = 'prezzo-posto';
+  badge.style = 'font-size:17px; font-weight:bold; color:#1a4a6b; margin-left:auto;';
+  badge.textContent = prezzo + ' a biglietto';
+  el.appendChild(badge);
 }
 
 function toggleSpettacolo(id) {
@@ -568,23 +585,39 @@ function vaiPag(n) {
 
 function vaiPag2() {
   let ok = true;
+  const email = document.getElementById('email').value.trim();
   const cognome = document.getElementById('cognome').value.trim();
   const nome = document.getElementById('nome').value.trim();
   const tel = document.getElementById('telefono').value.trim();
+  const datanascita = document.getElementById('datanascita').value;
+  const cf = document.getElementById('codicefiscale').value.trim();
+  const comune = document.getElementById('comune').value.trim();
+
+  if (!email) { document.getElementById('err-email').classList.add('visibile'); document.getElementById('email').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-email').classList.remove('visibile'); document.getElementById('email').classList.remove('errore'); }
   if (!cognome) { document.getElementById('err-cognome').classList.add('visibile'); document.getElementById('cognome').classList.add('errore'); ok = false; }
   else { document.getElementById('err-cognome').classList.remove('visibile'); document.getElementById('cognome').classList.remove('errore'); }
   if (!nome) { document.getElementById('err-nome').classList.add('visibile'); document.getElementById('nome').classList.add('errore'); ok = false; }
   else { document.getElementById('err-nome').classList.remove('visibile'); document.getElementById('nome').classList.remove('errore'); }
   if (!tel) { document.getElementById('err-telefono').classList.add('visibile'); document.getElementById('telefono').classList.add('errore'); ok = false; }
   else { document.getElementById('err-telefono').classList.remove('visibile'); document.getElementById('telefono').classList.remove('errore'); }
+  if (!datanascita) { document.getElementById('err-datanascita').classList.add('visibile'); document.getElementById('datanascita').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-datanascita').classList.remove('visibile'); document.getElementById('datanascita').classList.remove('errore'); }
+  if (!cf) { document.getElementById('err-codicefiscale').classList.add('visibile'); document.getElementById('codicefiscale').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-codicefiscale').classList.remove('visibile'); document.getElementById('codicefiscale').classList.remove('errore'); }
+  if (!comune) { document.getElementById('err-comune').classList.add('visibile'); document.getElementById('comune').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-comune').classList.remove('visibile'); document.getElementById('comune').classList.remove('errore'); }
+  if (!datiForm.pullman) { document.getElementById('err-pullman').classList.add('visibile'); ok = false; }
+  else { document.getElementById('err-pullman').classList.remove('visibile'); }
+
   if (!ok) return;
-  datiForm.email = document.getElementById('email').value.trim();
+  datiForm.email = email;
   datiForm.cognome = cognome;
   datiForm.nome = nome;
   datiForm.telefono = tel;
-  datiForm.datanascita = document.getElementById('datanascita').value;
-  datiForm.codicefiscale = document.getElementById('codicefiscale').value.trim().toUpperCase();
-  datiForm.comune = document.getElementById('comune').value.trim();
+  datiForm.datanascita = datanascita;
+  datiForm.codicefiscale = cf.toUpperCase();
+  datiForm.comune = comune;
   vaiPag(2);
 }
 

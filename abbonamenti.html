@@ -357,8 +357,9 @@
     <div class="sezione-body">
 
       <div class="campo">
-        <label for="email">Indirizzo Email <span class="facoltativo">(facoltativo)</span></label>
+        <label for="email">Indirizzo Email <span class="obbligatorio">*</span></label>
         <input type="email" id="email" placeholder="esempio@email.it">
+          <div class="errore-msg" id="err-email">Inserire l'indirizzo email</div>
       </div>
 
       <div class="campo-row">
@@ -382,28 +383,31 @@
 
       <div class="campo-row">
         <div class="campo">
-          <label for="datanascita">Data di Nascita <span class="facoltativo">(facoltativo)</span></label>
+          <label for="datanascita">Data di Nascita <span class="obbligatorio">*</span></label>
           <input type="date" id="datanascita">
+          <div class="errore-msg" id="err-datanascita">Inserire la data di nascita</div>
         </div>
         <div class="campo">
-          <label for="codicefiscale">Codice Fiscale <span class="facoltativo">(facoltativo)</span></label>
+          <label for="codicefiscale">Codice Fiscale <span class="obbligatorio">*</span></label>
           <input type="text" id="codicefiscale" placeholder="Es. RSSMRA80A01H501U" style="text-transform:uppercase">
+          <div class="errore-msg" id="err-codicefiscale">Inserire il codice fiscale</div>
         </div>
       </div>
 
       <div class="campo">
-        <label for="comune">Comune di Residenza <span class="facoltativo">(facoltativo)</span></label>
+        <label for="comune">Comune di Residenza <span class="obbligatorio">*</span></label>
         <input type="text" id="comune" placeholder="Es. Carbonia">
+        <div class="errore-msg" id="err-comune">Inserire il comune di residenza</div>
       </div>
 
     </div>
   </div>
 
   <div class="sezione">
-    <div class="sezione-header">🚌 Sede di Partenza del Pullman</div>
+    <div class="sezione-header">🚌 Da dove prendi il pullman per il Teatro Massimo? <span style="font-size:16px;">*</span></div>
     <div class="sezione-body">
       <div class="campo">
-        <label>Da dove prendi il pullman per il Teatro Massimo? <span class="facoltativo">(facoltativo)</span></label>
+        <label>Seleziona la tua sede di partenza <span class="obbligatorio">*</span></label>
         <div class="pullman-grid" id="pullman-group">
           <div class="pullman-opzione" onclick="selezionaPullman(this, 'Sant\'Antioco')">
             <input type="radio" name="pullman" value="Sant'Antioco">
@@ -457,25 +461,25 @@
             <input type="radio" name="tipoabb" value="Prosa">
             <div class="etichetta">
               <strong>Prosa — 10 spettacoli</strong>
-              <span>Stagione di Prosa completa</span>
+              <span id="desc-prosa">Seleziona prima Platea o Loggione</span>
             </div>
-            
+            <span class="prezzo-badge" id="badge-prosa">—</span>
           </div>
           <div class="scelta-opzione" onclick="selezionaTipo(this, 'Danza')">
             <input type="radio" name="tipoabb" value="Danza">
             <div class="etichetta">
               <strong>Danza — 4 spettacoli</strong>
-              <span>Stagione di Danza completa</span>
+              <span id="desc-danza">Seleziona prima Platea o Loggione</span>
             </div>
-            
+            <span class="prezzo-badge" id="badge-danza">—</span>
           </div>
           <div class="scelta-opzione" onclick="selezionaTipo(this, 'Combo')">
             <input type="radio" name="tipoabb" value="Combo">
             <div class="etichetta">
               <strong>Combo — 10 Prosa + 4 Danza</strong>
-              <span>Abbonamento completo Prosa e Danza</span>
+              <span id="desc-combo">Seleziona prima Platea o Loggione</span>
             </div>
-            
+            <span class="prezzo-badge" id="badge-combo">—</span>
           </div>
         </div>
         <div class="errore-msg" id="err-tipo">Selezionare il tipo di abbonamento</div>
@@ -557,11 +561,24 @@ function selezionaPullman(el, valore) {
   datiForm.pullman = valore;
 }
 
+const PREZZI = {
+  'Platea':   { Prosa: '€ 260', Danza: '€ 95',  Combo: '€ 275' },
+  'Loggione': { Prosa: '€ 105', Danza: '€ 45',  Combo: '€ 115' }
+};
+
 function selezionaPosto(el, valore) {
   document.querySelectorAll('#posto-group .scelta-opzione').forEach(o => o.classList.remove('selezionata'));
   el.classList.add('selezionata');
   el.querySelector('input').checked = true;
   datiForm.posto = valore;
+  // Aggiorna prezzi badge
+  const p = PREZZI[valore];
+  document.getElementById('badge-prosa').textContent = p.Prosa;
+  document.getElementById('badge-danza').textContent = p.Danza;
+  document.getElementById('badge-combo').textContent = p.Combo;
+  document.getElementById('desc-prosa').textContent = valore + ' — ' + p.Prosa;
+  document.getElementById('desc-danza').textContent = valore + ' — ' + p.Danza;
+  document.getElementById('desc-combo').textContent = valore + ' — ' + p.Combo;
 }
 
 function selezionaTipo(el, valore) {
@@ -587,23 +604,38 @@ function vaiPag(n) {
 
 function vaiPag2() {
   let ok = true;
+  const email = document.getElementById('email').value.trim();
   const cognome = document.getElementById('cognome').value.trim();
   const nome = document.getElementById('nome').value.trim();
   const tel = document.getElementById('telefono').value.trim();
+  const datanascita = document.getElementById('datanascita').value;
+  const cf = document.getElementById('codicefiscale').value.trim();
+  const comune = document.getElementById('comune').value.trim();
+
+  if (!email) { document.getElementById('err-email').classList.add('visibile'); document.getElementById('email').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-email').classList.remove('visibile'); document.getElementById('email').classList.remove('errore'); }
   if (!cognome) { document.getElementById('err-cognome').classList.add('visibile'); document.getElementById('cognome').classList.add('errore'); ok = false; }
   else { document.getElementById('err-cognome').classList.remove('visibile'); document.getElementById('cognome').classList.remove('errore'); }
   if (!nome) { document.getElementById('err-nome').classList.add('visibile'); document.getElementById('nome').classList.add('errore'); ok = false; }
   else { document.getElementById('err-nome').classList.remove('visibile'); document.getElementById('nome').classList.remove('errore'); }
   if (!tel) { document.getElementById('err-telefono').classList.add('visibile'); document.getElementById('telefono').classList.add('errore'); ok = false; }
   else { document.getElementById('err-telefono').classList.remove('visibile'); document.getElementById('telefono').classList.remove('errore'); }
+  if (!datanascita) { document.getElementById('err-datanascita').classList.add('visibile'); document.getElementById('datanascita').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-datanascita').classList.remove('visibile'); document.getElementById('datanascita').classList.remove('errore'); }
+  if (!cf) { document.getElementById('err-codicefiscale').classList.add('visibile'); document.getElementById('codicefiscale').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-codicefiscale').classList.remove('visibile'); document.getElementById('codicefiscale').classList.remove('errore'); }
+  if (!comune) { document.getElementById('err-comune').classList.add('visibile'); document.getElementById('comune').classList.add('errore'); ok = false; }
+  else { document.getElementById('err-comune').classList.remove('visibile'); document.getElementById('comune').classList.remove('errore'); }
+  if (!datiForm.pullman) { document.getElementById('err-pullman').classList.add('visibile'); ok = false; }
+  else { document.getElementById('err-pullman').classList.remove('visibile'); }
   if (!ok) return;
-  datiForm.email = document.getElementById('email').value.trim();
+  datiForm.email = email;
   datiForm.cognome = cognome;
   datiForm.nome = nome;
   datiForm.telefono = tel;
-  datiForm.datanascita = document.getElementById('datanascita').value;
-  datiForm.codicefiscale = document.getElementById('codicefiscale').value.trim().toUpperCase();
-  datiForm.comune = document.getElementById('comune').value.trim();
+  datiForm.datanascita = datanascita;
+  datiForm.codicefiscale = cf.toUpperCase();
+  datiForm.comune = comune;
   vaiPag(2);
 }
 
@@ -626,6 +658,7 @@ function vaiPag3() {
   html += `
     <div class="riga"><span class="etich">Tipo posto</span><span class="valore">${datiForm.posto}</span></div>
     <div class="riga"><span class="etich">Abbonamento</span><span class="valore">${labelTipo(datiForm.tipoAbbonamento)}</span></div>
+    <div class="riga"><span class="etich">Prezzo</span><span class="valore">${PREZZI[datiForm.posto][datiForm.tipoAbbonamento]}</span></div>
     <div class="riga"><span class="etich">Quota iscrizione LUTEC</span><span class="valore">€ 40,00 (singolo) / € 70,00 (coppia)</span></div>
     <div class="riga"><span class="etich">Modalità pagamento</span><span class="valore">POS in sede</span></div>
   `;
@@ -661,7 +694,8 @@ function inviaRichiesta() {
     comune: datiForm.comune || '',
     pullman: datiForm.pullman || '',
     posto: datiForm.posto,
-    tipoAbbonamento: labelTipo(datiForm.tipoAbbonamento)
+    tipoAbbonamento: labelTipo(datiForm.tipoAbbonamento),
+    prezzo: PREZZI[datiForm.posto][datiForm.tipoAbbonamento]
   };
 
   fetch(GOOGLE_SCRIPT_URL, {
@@ -696,6 +730,7 @@ function mostraRicevuta(payload) {
   if (payload.pullman) campi.push(['Pullman da', payload.pullman]);
   campi.push(['Tipo posto', payload.posto]);
   campi.push(['Abbonamento scelto', payload.tipoAbbonamento]);
+  campi.push(['Prezzo abbonamento', payload.prezzo || PREZZI[payload.posto] ? PREZZI[payload.posto][datiForm.tipoAbbonamento] : '']);
   campi.push(['Iscrizione LUTEC 2026/27', '€ 40,00 (singolo) / € 70,00 (coppia)']);
   campi.push(['Modalità pagamento', 'POS in sede']);
 
@@ -725,6 +760,7 @@ function apriStampaRicevuta() {
   if (p.pullman) righe.push(['Pullman da', p.pullman]);
   righe.push(['Tipo posto', p.posto]);
   righe.push(['Abbonamento scelto', p.tipoAbbonamento]);
+  if (p.prezzo) righe.push(['Prezzo abbonamento', p.prezzo]);
   righe.push(['Iscrizione LUTEC 2026/27', '€ 40,00 (singolo) / € 70,00 (coppia)']);
   righe.push(['Modalità pagamento', 'POS in sede']);
 
