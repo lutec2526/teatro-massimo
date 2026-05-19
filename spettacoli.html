@@ -95,6 +95,12 @@
   }
   .spettacolo-card.selezionata .sp-check { color: #1a4a6b; }
   .spettacolo-info { flex: 1; }
+  .prezzo-sp-card {
+    font-size: 15px; font-weight: bold; color: #1a4a6b;
+    background: #e0f0ff; padding: 4px 12px; border-radius: 16px;
+    flex-shrink: 0; margin-left: 8px;
+  }
+  .spettacolo-card.selezionata .prezzo-sp-card { background: #1a4a6b; color: white; }
   .spettacolo-titolo { font-size: 19px; font-weight: bold; color: #0d2233; }
   .spettacolo-data { font-size: 16px; color: #555; margin-top: 4px; }
   .spettacolo-tipo {
@@ -304,7 +310,22 @@
     <div class="sezione-header">🎬 Scegli gli Spettacoli</div>
     <div class="sezione-body">
       <div class="contatore-spettacoli" id="contatore">
-        ☑️ Spettacoli selezionati: <span id="num-selezionati">0</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>☑️ Spettacoli selezionati: <strong><span id="num-selezionati">0</span></strong></div>
+          <div id="box-prezzi" style="font-size:15px; color:#1a4a6b;">
+            Seleziona prima Platea o Loggione per vedere il prezzo
+          </div>
+        </div>
+        <div id="box-totale" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid #7eb8d4;">
+          <div style="display:flex; justify-content:space-between; font-size:16px;">
+            <span>Prezzo unitario per biglietto:</span>
+            <strong id="prezzo-unitario-display">—</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; color:#1a4a6b; margin-top:6px;">
+            <span>Totale biglietti (<span id="num-sp-totale">0</span> spettacoli):</span>
+            <strong id="totale-display">€ 0</strong>
+          </div>
+        </div>
       </div>
 
       <div class="categoria-label">🎭 Prosa</div>
@@ -316,6 +337,7 @@
           <div class="spettacolo-data">📅 29 novembre 2026</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card2" onclick="toggleSpettacolo(2)">
@@ -325,6 +347,7 @@
           <div class="spettacolo-data">📅 13 dicembre 2026</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card3" onclick="toggleSpettacolo(3)">
@@ -334,6 +357,7 @@
           <div class="spettacolo-data">📅 31 gennaio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card4" onclick="toggleSpettacolo(4)">
@@ -343,6 +367,7 @@
           <div class="spettacolo-data">📅 14 febbraio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card5" onclick="toggleSpettacolo(5)">
@@ -352,6 +377,7 @@
           <div class="spettacolo-data">📅 28 febbraio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card6" onclick="toggleSpettacolo(6)">
@@ -361,6 +387,7 @@
           <div class="spettacolo-data">📅 14 marzo 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card7" onclick="toggleSpettacolo(7)">
@@ -370,6 +397,7 @@
           <div class="spettacolo-data">📅 21 marzo 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card8" onclick="toggleSpettacolo(8)">
@@ -379,6 +407,7 @@
           <div class="spettacolo-data">📅 4 aprile 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card9" onclick="toggleSpettacolo(9)">
@@ -388,6 +417,7 @@
           <div class="spettacolo-data">📅 18 aprile 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card10" onclick="toggleSpettacolo(10)">
@@ -397,6 +427,7 @@
           <div class="spettacolo-data">📅 9 maggio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-prosa">Prosa</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="categoria-label" style="margin-top:28px;">💃 Danza</div>
@@ -408,6 +439,7 @@
           <div class="spettacolo-data">📅 20 dicembre 2026</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card12" onclick="toggleSpettacolo(12)">
@@ -417,6 +449,7 @@
           <div class="spettacolo-data">📅 6 gennaio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card13" onclick="toggleSpettacolo(13)">
@@ -426,6 +459,7 @@
           <div class="spettacolo-data">📅 17 gennaio 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="spettacolo-card" id="card14" onclick="toggleSpettacolo(14)">
@@ -435,6 +469,7 @@
           <div class="spettacolo-data">📅 11 aprile 2027</div>
         </div>
         <span class="spettacolo-tipo tipo-danza">Danza</span>
+          <span class="prezzo-sp-card" id="prezzo-card-{n}">—</span>
       </div>
 
       <div class="errore-msg" id="err-spettacoli" style="font-size:17px; margin-top:12px;">Selezionare almeno uno spettacolo</div>
@@ -552,15 +587,33 @@ function selezionaPosto(el, valore) {
   el.querySelector('input').checked = true;
   datiForm.posto = valore;
   const prezzo = valore === 'Platea' ? PREZZO_PLATEA : PREZZO_LOGGIONE;
-  document.querySelectorAll('.posto-opzione').forEach(o => {
-    const sp = o.querySelector('.prezzo-posto');
-    if (sp) sp.remove();
+  const prezzoNum = parseInt(prezzo.replace('€ ', ''));
+  // Aggiorna badge prezzo su tutte le card
+  document.querySelectorAll('.prezzo-sp-card').forEach(function(sp) {
+    sp.textContent = prezzo;
   });
-  const badge = document.createElement('span');
-  badge.className = 'prezzo-posto';
-  badge.style = 'font-size:17px; font-weight:bold; color:#1a4a6b; margin-left:auto;';
-  badge.textContent = prezzo + ' a biglietto';
-  el.appendChild(badge);
+  // Aggiorna box info prezzo
+  document.getElementById('box-prezzi').innerHTML =
+    'Prezzo per biglietto: <strong>' + prezzo + '</strong>';
+  // Aggiorna display prezzo unitario
+  document.getElementById('prezzo-unitario-display').textContent = prezzo;
+  // Ricalcola totale
+  aggiornaRiepilogoPrezzi();
+}
+
+function aggiornaRiepilogoPrezzi() {
+  const num = datiForm.spettacoli.length;
+  const posto = datiForm.posto;
+  document.getElementById('num-selezionati').textContent = num;
+  document.getElementById('num-sp-totale').textContent = num;
+  if (posto && num > 0) {
+    const prezzoNum = posto === 'Platea' ? 30 : 15;
+    const totale = prezzoNum * num;
+    document.getElementById('totale-display').textContent = '€ ' + totale;
+    document.getElementById('box-totale').style.display = 'block';
+  } else if (num === 0) {
+    document.getElementById('box-totale').style.display = 'none';
+  }
 }
 
 function toggleSpettacolo(id) {
@@ -575,7 +628,7 @@ function toggleSpettacolo(id) {
     check.innerHTML = '&#9745;';
     if (datiForm.spettacoli.indexOf(id) === -1) datiForm.spettacoli.push(id);
   }
-  document.getElementById('num-selezionati').textContent = datiForm.spettacoli.length;
+  aggiornaRiepilogoPrezzi();
   document.getElementById('err-spettacoli').classList.remove('visibile');
 }
 
