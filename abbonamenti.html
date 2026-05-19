@@ -395,7 +395,7 @@
         <div class="campo">
           <label for="codicefiscale">Codice Fiscale <span class="obbligatorio">*</span></label>
           <input type="text" id="codicefiscale" placeholder="Es. RSSMRA80A01H501U" style="text-transform:uppercase">
-          <div class="errore-msg" id="err-codicefiscale">Inserire il codice fiscale</div>
+          <div class="errore-msg" id="err-codicefiscale">Il codice fiscale deve essere di 16 caratteri (es. RSSMRA80A01H501U)</div>
         </div>
       </div>
 
@@ -626,23 +626,35 @@ function vaiPag2() {
   const cf = document.getElementById('codicefiscale').value.trim();
   const comune = document.getElementById('comune').value.trim();
 
-  if (!email) { document.getElementById('err-email').classList.add('visibile'); document.getElementById('email').classList.add('errore'); ok = false; }
-  else { document.getElementById('err-email').classList.remove('visibile'); document.getElementById('email').classList.remove('errore'); }
-  if (!cognome) { document.getElementById('err-cognome').classList.add('visibile'); document.getElementById('cognome').classList.add('errore'); ok = false; }
-  else { document.getElementById('err-cognome').classList.remove('visibile'); document.getElementById('cognome').classList.remove('errore'); }
-  if (!nome) { document.getElementById('err-nome').classList.add('visibile'); document.getElementById('nome').classList.add('errore'); ok = false; }
-  else { document.getElementById('err-nome').classList.remove('visibile'); document.getElementById('nome').classList.remove('errore'); }
-  if (!tel) { document.getElementById('err-telefono').classList.add('visibile'); document.getElementById('telefono').classList.add('errore'); ok = false; }
-  else { document.getElementById('err-telefono').classList.remove('visibile'); document.getElementById('telefono').classList.remove('errore'); }
-  if (!datanascita) { document.getElementById('err-datanascita').classList.add('visibile'); document.getElementById('datanascita').classList.add('errore'); ok = false; }
-  else { document.getElementById('err-datanascita').classList.remove('visibile'); document.getElementById('datanascita').classList.remove('errore'); }
-  if (!cf) { document.getElementById('err-codicefiscale').classList.add('visibile'); document.getElementById('codicefiscale').classList.add('errore'); ok = false; }
-  else { document.getElementById('err-codicefiscale').classList.remove('visibile'); document.getElementById('codicefiscale').classList.remove('errore'); }
-  if (!comune) { document.getElementById('err-comune').classList.add('visibile'); document.getElementById('comune').classList.add('errore'); ok = false; }
-  else { document.getElementById('err-comune').classList.remove('visibile'); document.getElementById('comune').classList.remove('errore'); }
-  if (!datiForm.pullman) { document.getElementById('err-pullman').classList.add('visibile'); ok = false; }
-  else { document.getElementById('err-pullman').classList.remove('visibile'); }
-  if (!ok) { scorriAlPrimoErrore(); return; }
+  function setErr(id, inputId, cond) {
+    var errEl = document.getElementById(id);
+    var inEl = inputId ? document.getElementById(inputId) : null;
+    if (cond) {
+      if (errEl) errEl.classList.add('visibile');
+      if (inEl) inEl.classList.add('errore');
+      ok = false;
+    } else {
+      if (errEl) errEl.classList.remove('visibile');
+      if (inEl) inEl.classList.remove('errore');
+    }
+  }
+
+  setErr('err-email',         'email',          !email);
+  setErr('err-cognome',       'cognome',         !cognome);
+  setErr('err-nome',          'nome',            !nome);
+  setErr('err-telefono',      'telefono',        !tel);
+  setErr('err-datanascita',   'datanascita',     !datanascita && !document.getElementById('datanascita').value);
+  const cfValido = /^[A-Z0-9]{16}$/i.test(cf);
+  setErr('err-codicefiscale', 'codicefiscale',   !cf || !cfValido);
+  setErr('err-comune',        'comune',          !comune);
+  setErr('err-pullman',       null,              !datiForm.pullman);
+
+  if (!ok) {
+    var primo = document.querySelector('.errore-msg.visibile');
+    if (primo) primo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
   datiForm.email = email;
   datiForm.cognome = cognome;
   datiForm.nome = nome;

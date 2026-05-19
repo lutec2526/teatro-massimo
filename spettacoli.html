@@ -254,7 +254,7 @@
         <div class="campo">
           <label for="codicefiscale">Codice Fiscale <span class="obbligatorio">*</span></label>
           <input type="text" id="codicefiscale" placeholder="Es. RSSMRA80A01H501U" style="text-transform:uppercase">
-          <div class="errore-msg" id="err-codicefiscale">Inserire il codice fiscale</div>
+          <div class="errore-msg" id="err-codicefiscale">Il codice fiscale deve essere di 16 caratteri (es. RSSMRA80A01H501U)</div>
         </div>
       </div>
 
@@ -621,7 +621,8 @@ function vaiPag2() {
   else { document.getElementById('err-telefono').classList.remove('visibile'); document.getElementById('telefono').classList.remove('errore'); }
   if (!datanascita) { document.getElementById('err-datanascita').classList.add('visibile'); document.getElementById('datanascita').classList.add('errore'); ok = false; }
   else { document.getElementById('err-datanascita').classList.remove('visibile'); document.getElementById('datanascita').classList.remove('errore'); }
-  if (!cf) { document.getElementById('err-codicefiscale').classList.add('visibile'); document.getElementById('codicefiscale').classList.add('errore'); ok = false; }
+  const cfValido = /^[A-Z0-9]{16}$/i.test(cf);
+  if (!cf || !cfValido) { document.getElementById('err-codicefiscale').classList.add('visibile'); document.getElementById('codicefiscale').classList.add('errore'); ok = false; }
   else { document.getElementById('err-codicefiscale').classList.remove('visibile'); document.getElementById('codicefiscale').classList.remove('errore'); }
   if (!comune) { document.getElementById('err-comune').classList.add('visibile'); document.getElementById('comune').classList.add('errore'); ok = false; }
   else { document.getElementById('err-comune').classList.remove('visibile'); document.getElementById('comune').classList.remove('errore'); }
