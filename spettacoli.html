@@ -711,6 +711,9 @@ function vaiPag3() {
     `${SPETTACOLI[id].titolo} (${SPETTACOLI[id].data} — ${SPETTACOLI[id].tipo})`
   ).join('<br>');
 
+  const prezzoUnitario = datiForm.posto === 'Platea' ? 30 : 15;
+  const totaleEuro = prezzoUnitario * datiForm.spettacoli.length;
+
   let html = `
     <div class="riga"><span class="etich">Nominativo</span><span class="valore">${datiForm.cognome} ${datiForm.nome}</span></div>
     <div class="riga"><span class="etich">Telefono</span><span class="valore">${datiForm.telefono}</span></div>`;
@@ -723,8 +726,13 @@ function vaiPag3() {
     <div class="riga"><span class="etich">Tipo posto</span><span class="valore">${datiForm.posto}</span></div>
     <div class="riga"><span class="etich">N. spettacoli scelti</span><span class="valore">${datiForm.spettacoli.length}</span></div>
     <div class="riga" style="flex-direction:column; gap:6px;"><span class="etich">Spettacoli selezionati</span><span class="valore" style="max-width:100%; text-align:left; color:#1a4a6b; font-size:16px; line-height:1.8;">${elencoSp}</span></div>
-
+    <div class="riga"><span class="etich">Prezzo per biglietto</span><span class="valore">€ ${prezzoUnitario}</span></div>
+    <div class="riga" style="background:#e0f0ff; border-radius:6px; padding:8px 12px; margin-top:4px;">
+      <span class="etich" style="font-weight:bold; color:#1a4a6b;">Totale biglietti (${datiForm.spettacoli.length} × € ${prezzoUnitario})</span>
+      <span class="valore" style="font-size:20px; color:#1a4a6b;">€ ${totaleEuro}</span>
+    </div>
     <div class="riga"><span class="etich">Quota iscrizione LUTEC</span><span class="valore">€ 40,00 (singolo) / € 70,00 (coppia)</span></div>
+    <div class="riga"><span class="etich">Modalità pagamento</span><span class="valore">POS in sede</span></div>
   `;
   document.getElementById('riepilogo-content').innerHTML = html;
   vaiPag(3);
@@ -820,6 +828,10 @@ function apriStampaRicevuta() {
     const s = SPETTACOLI[id];
     righe.push([s.tipo + ': ' + s.titolo, s.data]);
   });
+  const puSt = p.posto === 'Platea' ? 30 : 15;
+  const totSt = puSt * p.numSpettacoli;
+  righe.push(['Prezzo per biglietto', '€ ' + puSt]);
+  righe.push(['Totale biglietti (' + p.numSpettacoli + ' × € ' + puSt + ')', '€ ' + totSt]);
   righe.push(['Iscrizione LUTEC 2026/27', '€ 40,00 (singolo) / € 70,00 (coppia)']);
   righe.push(['Modalità pagamento', 'POS in sede']);
 
